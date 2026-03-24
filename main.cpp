@@ -1,24 +1,43 @@
 #include <bits/stdc++.h>
 #include "utils/timer.h"
+
 #include "include/sorting/merge_sort.h"
+#include "include/sorting/quick_sort.h"
 
 using namespace std;
 
-int main() {
-    vector<int> arr = {5, 2, 9, 1, 5, 6};
+void printArray(const vector<int>& arr) {
+    for(int x : arr) cout << x << " ";
+    cout << "\n";
+}
+
+void test(string name, vector<int> arr,
+          long long (*sortFunc)(vector<int>&, int, int)) {
+
+    cout << "\n--- " << name << " ---\n";
+
+    cout << "Input: ";
+    printArray(arr);
 
     Timer t;
     t.startTimer();
 
-    long long ops = mergeSort(arr, 0, arr.size()-1);
+    long long ops = sortFunc(arr, 0, arr.size()-1);
 
-    double timeTaken = t.stopTimer();
+    double time = t.stopTimer();
 
-    cout << "Sorted Array: ";
-    for(int x: arr) cout << x << " ";
+    cout << "Output: ";
+    printArray(arr);
 
-    cout << "\nOperations: " << ops;
-    cout << "\nTime Taken: " << timeTaken << " sec\n";
+    cout << "Operations: " << ops << "\n";
+    cout << "Time: " << time << " sec\n";
+}
+
+int main() {
+    vector<int> input = {5, 2, 9, 1, 5, 6};
+
+    test("Merge Sort", input, mergeSort);
+    test("Quick Sort", input, quickSort);
 
     return 0;
 }
